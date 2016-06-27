@@ -1,0 +1,47 @@
+
+skyshooterpack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+land
+  rotate: false
+  xy: 1, 454
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+sky
+  rotate: false
+  xy: 1, 92
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+cloud
+  rotate: false
+  xy: 643, 708
+  size: 183, 106
+  orig: 183, 106
+  offset: 0, 0
+  index: -1
+enemy
+  rotate: false
+  xy: 1, 1
+  size: 190, 89
+  orig: 190, 89
+  offset: 0, 0
+  index: -1
+spaceship
+  rotate: false
+  xy: 643, 658
+  size: 70, 48
+  orig: 70, 48
+  offset: 0, 0
+  index: -1
+laser
+  rotate: false
+  xy: 828, 794
+  size: 53, 20
+  orig: 53, 20
+  offset: 0, 0
+  index: -1
