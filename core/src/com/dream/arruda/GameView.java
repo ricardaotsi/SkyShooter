@@ -1,6 +1,7 @@
 package com.dream.arruda;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -19,6 +20,7 @@ public class GameView implements Screen{
         game=g;
         game.camera.setToOrtho(false, game.width, game.height);
         atlas=new TextureAtlas(Gdx.files.internal("skyshooterpack.pack"));
+        Gdx.input.setInputProcessor(new InputAdapter());
         glogic=new GameLogic(game, this);
     }
 
@@ -43,6 +45,7 @@ public class GameView implements Screen{
         for(int i=0;i<=glogic.bg.cloudpos.size-1;i++){
             game.batch.draw(glogic.bg.cloud,glogic.bg.cloudpos.get(i).x,glogic.bg.cloudpos.get(i).y);
         }
+        game.batch.draw(glogic.ship.ship,glogic.ship.shippos.x,glogic.ship.shippos.y);
         game.batch.end();
     }
 

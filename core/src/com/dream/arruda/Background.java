@@ -37,7 +37,7 @@ public class Background {
         landpos2=new Vector2(landpos1.x+land.getRegionWidth(),0);
         landvel=g.width/2;
         cloudpos=new Array<Vector2>();
-        while (cloudpos.size<12)
+        while (cloudpos.size<8)
             cloudpos.add(new Vector2(Rand(g.width,g.width*2), Rand(0,g.height-cloud.getRegionHeight())));
         cloudvel=g.width/4;
         w=g.width;
@@ -69,8 +69,7 @@ public class Background {
         seed ^= (seed << 21);
         seed ^= (seed >>> 35);
         seed ^= (seed << 4);
-        int out = (int) seed;
-        return new Random(out).nextInt(max)+min;
+        return new Random(seed).nextInt(max)+min;
 
     }
 }

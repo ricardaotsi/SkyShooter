@@ -30,6 +30,8 @@ public class Game extends com.badlogic.gdx.Game {
 		camera = new OrthographicCamera();
 		gameover=false;
 		backpressed=false;
+		Gdx.input.setCatchBackKey(true);
+		backpressed=false;
 		this.setScreen(new MenuView(this));
 	}
 
