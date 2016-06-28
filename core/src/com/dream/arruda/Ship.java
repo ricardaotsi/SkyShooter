@@ -1,6 +1,7 @@
 package com.dream.arruda;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -11,26 +12,29 @@ public class Ship {
     public TextureRegion ship;
     public Vector2 shippos;
     public TextureRegion laser;
-    public Array<Vector2> laserpos;
-    private Vector2 dir;
-    private float laservel;
+    private Game game;
+    public Rectangle shipcollision;
+    public Array<Laser> laserobj;
 
     public Ship(Game g, GameView gv){
         ship=gv.atlas.findRegion("spaceship");
         laser=gv.atlas.findRegion("laser");
         shippos=new Vector2(g.width/12,g.height/2-ship.getRegionHeight()/2);
-        laserpos=new Array<Vector2>();
-        dir=new Vector2(1,0);
-        laservel=g.width;
+        game=g;
+        shipcollision=new Rectangle(shippos.x,shippos.y,ship.getRegionWidth(),ship.getRegionHeight());
+        laserobj=new Array<Laser>();
     }
 
     public void AddLaser(){
-        laserpos.add(new Vector2(shippos.x,shippos.y+laser.getRegionHeight()/5*3));
+        laserobj.add(new Laser(game,this));
     }
 
     public void Update(float fps){
-        for(int i=0; i<=laserpos.size-1;i++){
-            laserpos.get(i).add(dir.cpy().scl(laservel*fps));
+        for(int i=0;i<=laserobj.size-1;i++) {
+            laserobj.get(i).Update(fps);
+            if (laserobj.get(i).laserpos.x + laser.getRegionWidth() >= game.width)
+                laserobj.removeIndex(i);
         }
+        shipcollision=new Rectangle(shippos.x,shippos.y,ship.getRegionWidth(),ship.getRegionHeight());
     }
 }

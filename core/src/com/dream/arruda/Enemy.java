@@ -1,5 +1,6 @@
 package com.dream.arruda;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -14,6 +15,7 @@ public class Enemy {
     private float enemyvel;
     private Game game;
     private GameView gameView;
+    public Rectangle collisiion;
 
     public Enemy(Game g, GameView gv){
         enemypos=new Vector2(Rand(g.width,g.width*2),Rand(0,g.height-gv.atlas.findRegion("enemy").getRegionHeight()));
@@ -21,6 +23,8 @@ public class Enemy {
         enemyvel=Rand(g.width/6,g.width/2);
         game=g;
         gameView=gv;
+        collisiion=new Rectangle(enemypos.x,enemypos.y,
+                gv.atlas.findRegion("enemy").getRotatedPackedWidth(),gv.atlas.findRegion("enemy").getRegionHeight());
     }
 
     private int Rand(int min, int max){
@@ -34,6 +38,12 @@ public class Enemy {
     public void Update(float fps){
         enemypos.add(dir.cpy().scl(enemyvel*fps));
         if(enemypos.x+gameView.atlas.findRegion("enemy").getRegionWidth()/4<=0)
-            enemypos.set(Rand(game.width,game.width*2),Rand(0,game.height-gameView.atlas.findRegion("enemy").getRegionHeight()));
+            setpos();
+        collisiion.set(enemypos.x,enemypos.y,
+                gameView.atlas.findRegion("enemy").getRotatedPackedWidth(),gameView.atlas.findRegion("enemy").getRegionHeight());
+    }
+
+    public void setpos(){
+        enemypos.set(Rand(game.width,game.width*2),Rand(0,game.height-gameView.atlas.findRegion("enemy").getRegionHeight()));
     }
 }
