@@ -64,6 +64,7 @@ public class MenuView implements Screen {
         game.font.draw(game.batch, str1, game.width/2-glyphLayout.width/2, game.height/5*3+glyphLayout.height/2);
         glyphLayout.setText(game.font,str2);
         game.font.draw(game.batch, str2, game.width/2-glyphLayout.width/2, game.height/2-glyphLayout.height/2);
+        //game.font.draw(game.batch, Integer.toString((-1 < 0) ? 2 : 3),200,200);
         game.batch.end();
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
             if(!game.backpressed){
