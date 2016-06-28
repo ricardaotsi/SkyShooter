@@ -48,6 +48,8 @@ public class GameView implements Screen{
         for(int i=0; i<=glogic.ship.laserpos.size-1;i++){
             game.batch.draw(glogic.ship.laser, glogic.ship.laserpos.get(i).x,glogic.ship.laserpos.get(i).y);
         }
+        for(int i=0;i<=glogic.enemys.size-1;i++)
+            game.batch.draw(glogic.currentFrame,glogic.enemys.get(i).enemypos.x,glogic.enemys.get(i).enemypos.y);
         game.batch.draw(glogic.ship.ship,glogic.ship.shippos.x,glogic.ship.shippos.y);
         game.batch.end();
     }

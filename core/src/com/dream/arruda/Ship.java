@@ -21,7 +21,7 @@ public class Ship {
         shippos=new Vector2(g.width/12,g.height/2-ship.getRegionHeight()/2);
         laserpos=new Array<Vector2>();
         dir=new Vector2(1,0);
-        laservel=g.width/1.5f;
+        laservel=g.width;
     }
 
     public void AddLaser(){
