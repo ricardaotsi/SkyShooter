@@ -61,20 +61,12 @@ public class GameLogic implements InputProcessor{
             enemys.get(i).Update(fps);
             if(Intersector.overlaps(enemys.get(i).collisiion,ship.shipcollision))
                 enemys.get(i).setpos();
-            /*for(int j=0;i<=ship.laserobj.size-1;i++){
+            for(int j=0;j<=ship.laserobj.size-1;j++){
                 if(Intersector.overlaps(enemys.get(i).collisiion,ship.laserobj.get(j).collision)){
                     ship.laserobj.removeIndex(j);
                     enemys.get(i).setpos();
-                    break;
                 }
-            }*/
-            /*for(int j=0;i<=ship.laserpos.size-1;i++) {
-                if (Intersector.overlaps(new Rectangle(enemys.get(i).enemypos.x + currentFrame.getRegionWidth() / 4, enemys.get(i).enemypos.y + currentFrame.getRegionHeight() / 2,
-                                currentFrame.getRegionWidth() - currentFrame.getRegionWidth() / 4, currentFrame.getRegionHeight()),
-                        new Rectangle(ship.laserpos.get(j).x,ship.laserpos.get(j).y,ship.laser.getRegionWidth(),ship.laser.getRegionHeight()))) {
-                    ship.laserpos.removeIndex(j);
-                }
-            }*/
+            }
         }
     }
 
