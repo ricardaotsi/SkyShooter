@@ -17,23 +17,21 @@ public class GameLogic implements InputProcessor{
     public Background bg;
     public Ship ship;
     public Array<Enemy> enemys;
+    public Array<Explosion> explosions;
     private Game game;
     private GameView gameView;
     private Vector3 touchPos;
 
     //enemy animation is loaded only one time and repeated for each enemy
-    private TextureRegion[] enemy;
-    public TextureRegion currentFrame;
-    private Animation moveenemy;
-    private float state;
+    public TextureRegion[] enemy;
+    public TextureRegion[] explosion;
     //-------------------------------------------------------------------
 
     public GameLogic(Game g, GameView gv){
         bg=new Background(g,gv);
         ship=new Ship(g,gv);
         enemys=new Array<Enemy>();
-        while (enemys.size<8)
-            enemys.add(new Enemy(g,gv));
+        explosions=new Array<Explosion>();
         game=g;
         gameView=gv;
         touchPos=new Vector3();
@@ -47,23 +45,35 @@ public class GameLogic implements InputProcessor{
         for (int i = 0; i < 4; i++) {
                 enemy[index++] = tmp[0][i];
         }
-        moveenemy=new Animation(0.25f,enemy);
-        state=0f;
+        tmp=gv.atlas.findRegion("explosion").split(gv.atlas.findRegion("explosion").getRegionWidth()/6,
+                gv.atlas.findRegion("explosion").getRegionHeight());
+        explosion= new TextureRegion[6];
+        index = 0;
+        for (int i = 0; i < 6; i++) {
+            explosion[index++] = tmp[0][i];
+        }
         //-------------------------------------------------------------------
+        while (enemys.size<8)
+            enemys.add(new Enemy(g,gv,this));
     }
 
     public void Update(float fps){
-        state+=fps;
         bg.Update(fps);
         ship.Update(fps);
-        currentFrame=moveenemy.getKeyFrame(state,true);
+        for(int a=0;a<=explosions.size-1;a++) {
+            if(explosions.get(a).Update(fps))
+                explosions.removeIndex(a);
+        }
         for(int i=0;i<=enemys.size-1;i++) {
             enemys.get(i).Update(fps);
-            if(Intersector.overlaps(enemys.get(i).collisiion,ship.shipcollision))
+            if(Intersector.overlaps(enemys.get(i).collisiion,ship.shipcollision)) {
+                explosions.add(new Explosion(this,enemys.get(i).enemypos));
                 enemys.get(i).setpos();
+            }
             for(int j=0;j<=ship.laserobj.size-1;j++){
                 if(Intersector.overlaps(enemys.get(i).collisiion,ship.laserobj.get(j).collision)){
                     ship.laserobj.removeIndex(j);
+                    explosions.add(new Explosion(this,enemys.get(i).enemypos));
                     enemys.get(i).setpos();
                 }
             }
@@ -92,16 +102,16 @@ public class GameLogic implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
+        touchPos.set(screenX, screenY, 0);
+        game.camera.unproject(touchPos);
+        if(touchPos.x>=ship.shippos.x+ship.ship.getRegionWidth())
+            ship.AddLaser();
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        touchPos.set(screenX, screenY, 0);
-        game.camera.unproject(touchPos);
-        if(touchPos.x>=ship.shippos.x+ship.ship.getRegionWidth())
-            ship.AddLaser();
+
         return false;
     }
 

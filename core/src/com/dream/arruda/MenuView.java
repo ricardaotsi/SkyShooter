@@ -55,7 +55,7 @@ public class MenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.3215f, 0.8313f, 1f, 1);
+        Gdx.gl.glClearColor(0.7137f, 0.8274f, 0.8823f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);

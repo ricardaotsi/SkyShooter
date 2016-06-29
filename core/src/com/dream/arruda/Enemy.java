@@ -1,5 +1,7 @@
 package com.dream.arruda;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -16,8 +18,11 @@ public class Enemy {
     private Game game;
     private GameView gameView;
     public Rectangle collisiion;
+    public TextureRegion currentFrame;
+    private Animation moveenemy;
+    private float state;
 
-    public Enemy(Game g, GameView gv){
+    public Enemy(Game g, GameView gv, GameLogic gl){
         enemypos=new Vector2(Rand(g.width,g.width*2),Rand(0,g.height-gv.atlas.findRegion("enemy").getRegionHeight()));
         dir=new Vector2(-1,0);
         enemyvel=Rand(g.width/6,g.width/2);
@@ -25,6 +30,9 @@ public class Enemy {
         gameView=gv;
         collisiion=new Rectangle(enemypos.x,enemypos.y,
                 gv.atlas.findRegion("enemy").getRotatedPackedWidth(),gv.atlas.findRegion("enemy").getRegionHeight());
+        moveenemy=new Animation(0.25f,gl.enemy);
+        state=0f;
+        currentFrame=moveenemy.getKeyFrame(state,true);
     }
 
     private int Rand(int min, int max){
@@ -36,6 +44,8 @@ public class Enemy {
     }
 
     public void Update(float fps){
+        state+=fps;
+        currentFrame=moveenemy.getKeyFrame(state,true);
         enemypos.add(dir.cpy().scl(enemyvel*fps));
         if(enemypos.x+gameView.atlas.findRegion("enemy").getRegionWidth()/4<=0)
             setpos();

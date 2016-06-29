@@ -25,7 +25,7 @@ public class Game extends com.badlogic.gdx.Game {
 		density=Gdx.graphics.getWidth()/width;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("sans.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = width/13;
+		parameter.size = width/20;
 		font = generator.generateFont(parameter);
 		camera = new OrthographicCamera();
 		gameover=false;
