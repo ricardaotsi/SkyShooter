@@ -15,6 +15,7 @@ public class Ship {
     private Game game;
     public Rectangle shipcollision;
     public Array<Laser> laserobj;
+    public int life;
 
     public Ship(Game g, GameView gv){
         ship=gv.atlas.findRegion("spaceship");
@@ -23,6 +24,7 @@ public class Ship {
         game=g;
         shipcollision=new Rectangle(shippos.x,shippos.y,ship.getRegionWidth(),ship.getRegionHeight());
         laserobj=new Array<Laser>();
+        life=10;
     }
 
     public void AddLaser(){

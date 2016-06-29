@@ -4,7 +4,6 @@ package com.dream.arruda;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
@@ -21,6 +20,7 @@ public class GameLogic implements InputProcessor{
     private Game game;
     private GameView gameView;
     private Vector3 touchPos;
+    public int score;
 
     //enemy animation is loaded only one time and repeated for each enemy
     public TextureRegion[] enemy;
@@ -35,6 +35,7 @@ public class GameLogic implements InputProcessor{
         game=g;
         gameView=gv;
         touchPos=new Vector3();
+        score=0;
         Gdx.input.setInputProcessor(this);
 
         //enemy animation is loaded only one time and repeated for each enemy
@@ -69,12 +70,22 @@ public class GameLogic implements InputProcessor{
             if(Intersector.overlaps(enemys.get(i).collisiion,ship.shipcollision)) {
                 explosions.add(new Explosion(this,enemys.get(i).enemypos));
                 enemys.get(i).setpos();
+                if((ship.life-=1)<=0){
+                    game.gameover=true;
+                    game.setScreen(new MenuView(game));
+                    gameView.dispose();
+                }
             }
             for(int j=0;j<=ship.laserobj.size-1;j++){
                 if(Intersector.overlaps(enemys.get(i).collisiion,ship.laserobj.get(j).collision)){
                     ship.laserobj.removeIndex(j);
                     explosions.add(new Explosion(this,enemys.get(i).enemypos));
                     enemys.get(i).setpos();
+                    if((score+=1)>=50) {
+                        game.gameover=true;
+                        game.setScreen(new MenuView(game));
+                        gameView.dispose();
+                    }
                 }
             }
         }

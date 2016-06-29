@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -60,6 +61,7 @@ public class MenuView implements Screen {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
+        game.font.setColor(Color.WHITE);
         glyphLayout.setText(game.font,str1);
         game.font.draw(game.batch, str1, game.width/2-glyphLayout.width/2, game.height/5*3+glyphLayout.height/2);
         glyphLayout.setText(game.font,str2);
@@ -73,12 +75,13 @@ public class MenuView implements Screen {
             }else if(game.backpressed)
                 game.backpressed=false;
         }
-        /*if(game.gameover) {
-            glyphLayout.setText(game.font2,"Game Over");
+        if(game.gameover) {
+            glyphLayout.setText(game.font,"Game over");
             game.batch.begin();
-            game.font2.draw(game.batch, "Game Over", game.width/2-glyphLayout.width/2, game.height);
+            game.font.setColor(Color.FIREBRICK);
+            game.font.draw(game.batch, "Game over", game.width/2-glyphLayout.width/2, game.height);
             game.batch.end();
-        }*/
+        }
     }
 
     @Override

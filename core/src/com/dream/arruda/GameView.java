@@ -2,7 +2,9 @@ package com.dream.arruda;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
@@ -14,12 +16,14 @@ public class GameView implements Screen{
     private GameLogic glogic;
     public TextureAtlas atlas;
     private float dt;
+    private GlyphLayout glyphLayout;
 
     public GameView(Game g){
         game=g;
         game.camera.setToOrtho(false, game.width, game.height);
         atlas=new TextureAtlas(Gdx.files.internal("skyshooterpack.pack"));
         glogic=new GameLogic(game, this);
+        glyphLayout=new GlyphLayout();
     }
 
     @Override
@@ -36,6 +40,7 @@ public class GameView implements Screen{
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
+        game.font.setColor(Color.WHITE);
         game.batch.draw(glogic.bg.sky,glogic.bg.skypos1.x,glogic.bg.skypos1.y);
         game.batch.draw(glogic.bg.sky,glogic.bg.skypos2.x,glogic.bg.skypos2.y);
         game.batch.draw(glogic.bg.land,glogic.bg.landpos1.x,glogic.bg.landpos1.y);
@@ -51,6 +56,15 @@ public class GameView implements Screen{
         for(int i=0;i<=glogic.explosions.size-1;i++)
             game.batch.draw(glogic.explosions.get(i).currentFrameexplosion, glogic.explosions.get(i).pos.x, glogic.explosions.get(i).pos.y);
         game.batch.draw(glogic.ship.ship,glogic.ship.shippos.x,glogic.ship.shippos.y);
+
+        game.font.draw(game.batch,"Score: ",0,game.height);
+        glyphLayout.setText(game.font,"Score: ");
+        game.font.draw(game.batch,Integer.toString(glogic.score),glyphLayout.width,game.height);
+        glyphLayout.setText(game.font,Integer.toString(glogic.ship.life));
+        game.font.draw(game.batch,Integer.toString(glogic.ship.life),game.width-glyphLayout.width,game.height);
+        float i=glyphLayout.width;
+        glyphLayout.setText(game.font,"Life: ");
+        game.font.draw(game.batch,"Life: ",game.width-glyphLayout.width-i,game.height);
         game.batch.end();
     }
 
